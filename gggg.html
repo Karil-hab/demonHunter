@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		h3{
+			color:white;
+			font-family: sans-serif;
+		}
+		.text{display:none;margin-left: 300px; color:#ff0019;text-shadow: black 4px 4px 2px;}
+		.OMG , .mark{
+			position: absolute;
+			width: 200px;
+			height: 200px;
+			display: block;		
+			background: no-repeat;
+			background-size: 100% 100% ;
+		}
+		.Boss{
+			width: 600px;
+			height: 700px;
+			margin-left: auto;
+			margin-right: auto;
+			background-image: url('fireman.png');
+			background-size: 100% 100%; 	
+		}
+		
+		body{
+			background: url('fon.webp');
+			font-size: 100% 100%;
+		}
+	</style>
+</head>
+<body>
+	<h3>Поймано : <span class="ochichi">0</span></h3>
+	<div style="display: flex;">
+		<h3>Проникло : <span class="live">0</span></h3> 
+		<h1 class="text" >СОСТОЯНИЕ БОССА : <span class="hellBoss">15</span></h1>
+	</div>
+
+	<h3>Всего : <span class="Los" >0</span></h3>
+	<div style="height: ;width: ;background: blue; border-radius: "></div>
+<script type="text/javascript">
+
+   
+	let времяИсчезновения=2000; //--(Изночально:2000)---------------ТАЙМЕР ИСЧЕЗНОВЕНИЯ ВРАГА--------------(Увеличь если сложно в 2 раза)
+	let времяПоявления1=1000;   //--(Изночально:1000)---------------ТАЙМЕРЫ ПОЯВЛЕНИЯ ВРАГА----------------(увеличь если сложно в 2 раза)
+	let времяПоявления2=1600;
+	let limit=6;  				//--Подобие ХП--
+	let ole=0;
+	let hell = 15;
+	let quantity=0;
+	let kill=0;
+	let text = document.querySelector('.text');
+	let Los = document.querySelector('.Los');
+	let ochichi=document.querySelector('.ochichi');
+	let OMG = document.querySelector('.OMG');	
+	let mark = document.querySelector('.mark');	
+	let destroited = 0;
+	let live= document.querySelector(".live");
+	let Boss = document.querySelector('.Boss');
+	let hellBoss = document.querySelector('.hellBoss');
+	hellBoss.innerHTML=hell;
+
+
+
+let createCart = function() {
+	let cart = document.createElement('img');
+	document.body.appendChild(cart);
+	cart.style.backgroundImage='url(zloyyy.png)';
+	cart.classList.add('OMG');
+	cart.style.borderRadius="100px"	
+	quantity++;
+	destroited++;
+	if (destroited==limit) {alert('Пройгрышь');alert("Поймано : "+kill+" | В здание проникло : "+destroited+" | Всего чертей : "+quantity)}
+	if (destroited<limit) {
+		let margTop=Math.round(Math.random() * (600 - 200) + 200);
+		let margLeft=Math.round(Math.random() * (1400 - 200) + 200);	
+		cart.style.top=margTop+"px";
+		cart.style.left=margLeft+"px";	//это пасивное поведение
+
+	}else{
+							//GHJBUHSIM ПРОИГРЫШЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		let pizdec =setTimeout(LOOSE,1000);	
+		margTop=Math.round(Math.random() * 600);
+		margLeft=Math.round(Math.random() * 1400);
+		cart.style.top=margTop+"px";
+		cart.style.left=margLeft+"px";		
+	}
+	live.innerHTML=destroited;
+	Los.innerHTML=quantity;
+	cart.onclick=function() {
+		cart.style.display="none";
+		kill++;
+		destroited--;
+		live.innerHTML=destroited;
+		ochichi.innerHTML=kill;
+	}
+	let deletCart=function() {
+		cart.style.display="none";		
+	}
+	setInterval(deletCart,времяИсчезновения);  //---------------------------ТАЙМЕР ИСЧЕЗНОВЕНИЯ ВРАГА---------(Увеличь если сложно)------
+}
+let lastBOSS= function() {
+	//алерты замути
+	text.style.display='block';
+	alert("Фух ,кажеться справился");
+	alert('А нет, показалось');
+	alert('По всей видимости пришёл их глава ( У него 15ХП : 1клик = 1урону )');
+	let BossDiv = document.createElement('div');
+	document.body.appendChild(BossDiv);
+	BossDiv.classList.add('Boss');
+	let rigMon=function(){
+		BossDiv.style.backgroundImage='url(fireman.png)';
+	}
+	let leftMon=function(){
+		BossDiv.style.backgroundImage='url(fireman2.png)';
+	}
+	setInterval(rigMon,2000);
+	setInterval(leftMon,3000);
+	BossDiv.onclick=function() {
+		
+		if (hell>=-2){
+		hell--;
+		hellBoss.innerHTML=hell;}
+		if (hell==0) {
+			limit=12;
+			alert('Отлично');	
+			alert('Бесконечный режим разблокирован');			//ПОБЕДА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			alert('Кол. возможных проникновений в здание, увеличено до 12! ,если наберёться больше 12, вы проиграли!');
+			clearInterval(createCart);
+			}
+		if (hell==-2)  {alert('Можешь его не трогать, теперь он просто танцует.');ole++;}if(ole==1){
+				text.style.color='#30d133';
+				setInterval(rigMon,200);
+				setInterval(leftMon,300);
+				let win=' УНИЧТОЖЕН';
+				hellBoss.innerHTML=win;
+			}
+	}		
+}
+setTimeout(lastBOSS,15000);
+let lok1=setInterval(createCart, времяПоявления1);// ---------------------------ТАЙМЕРЫ ПОЯВЛЕНИЯ ВРАГА--------------(увеличь если сложно)
+let lok2=setInterval(createCart, времяПоявления2);// ---------------------------ТАЙМЕРЫ ПОЯВЛЕНИЯ ВРАГА--------------(увеличь если сложно)
+let LOOSE=function() {
+	let lok3=setInterval(createCart, 100);
+	let lok4=setInterval(createCart, 200);
+	let lok5=setInterval(createCart, 100);
+	let lok6=setInterval(createCart, 300);
+}
+
+	
+
+alert('Черти заполнили дом! Быстрее выгони ИХ!!!');
+alert('Если проникнувших будет больше " 6 ", вы проиграли!!!');
+
+</script>
+</body>
+</html>
